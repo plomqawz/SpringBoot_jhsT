@@ -26,19 +26,18 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardDTO findByNum(int num) {
-		// TODO Auto-generated method stub
-		return null;
+		return bmapper.findByNum(num);
 	}
 
 	@Override
 	public void update(BoardDTO board) {
-		// TODO Auto-generated method stub
+		bmapper.update(board);
 		
 	}
 
 	@Override
 	public void delete(int num) {
-		// TODO Auto-generated method stub
+		bmapper.delete(num);
 		
 	}
 
