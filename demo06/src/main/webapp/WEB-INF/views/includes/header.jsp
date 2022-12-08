@@ -46,6 +46,8 @@
 					<li class="nav-item"><a class="nav-link" href="/logout">로그아웃(<sec:authentication
 								property="principal.user.username" />)
 					</a></li>
+					<li class="nav-item"><a class="nav-link" href="/???">회원변경
+					</a></li>
 
 				</sec:authorize>
 			</ul>

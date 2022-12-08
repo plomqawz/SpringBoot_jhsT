@@ -1,5 +1,6 @@
 package com.example.demo06.service;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -32,8 +33,28 @@ public class BoardService {
 	public Page<Board> findAll(Pageable pageable ){
 		return boardRepository.findAll(pageable);
 	}
+	//페이징 검색 전체보기
+	public Page<Board> findAll(String field, String word,Pageable pageable ){
+		Page<Board> lists = boardRepository.findAll(pageable);
+		if(field.equals("title")){
+			lists = boardRepository.findByTitleContaining(word,pageable);
+		}else if (field.equals("content")) {
+			lists = boardRepository.findByContentContaining(word,pageable);
+		}
+		return lists;
+	}
 	public Long count() {
 		return boardRepository.count();
+	}
+	public Long count(String field, String word) {
+		Long count = boardRepository.count();
+		if(field.equals("title")){
+			count = boardRepository.cntTitleSearch(word);
+		}else if (field.equals("content")) {
+			count = boardRepository.cntContentSearch(word);
+		}
+		return count;
+		
 	}
 	
 	@Transactional
@@ -42,6 +63,20 @@ public class BoardService {
 		board.setHitcount(board.getHitcount()+1);
 		return board;
 		
+	}
+	//삭제
+	@Transactional
+	public void delete(Long num) {
+		boardRepository.deleteById(num);
+	//boardRepository.deleteByNum(num);
+	}
+	//수정==>더티체킹
+	@Transactional
+	public void update(Board board) {
+		Board b =boardRepository.findById(board.getNum()).get();
+		b.setTitle(board.getTitle());
+		b.setContent(board.getContent());
+		b.setRegdate(new Date());
 	}
 
 }

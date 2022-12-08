@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,9 +39,13 @@ public class Board {
 	private Date regdate;
 	private Long hitcount;
 	private Long replycnt;
+	
 	@OneToMany(mappedBy = "board")
+	@JsonIgnoreProperties("board")
 	private List<Comment> comments;
-	@ManyToOne
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	//@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	private User user;
 	
